@@ -1,0 +1,45 @@
+<!--  Theme Form - Form + Write Comment -->
+
+<ion-content>
+<ion-card >
+    <!-- Content -->
+    <ion-card-content class="ion-padding transparent">
+
+        <ion-list>
+            <ion-item *ngFor="let item of data; let i = index" (click)="checkUser(i)">
+            <!-- <ion-item *ngFor="let item of data">  -->
+              <ion-label>{{item.name}} {{item.id}}</ion-label>
+              <!-- <ion-checkbox [(ngModel)]="item.id" (ionChange)="update()"></ion-checkbox>-->
+              <ion-checkbox slot="end" [(ngModel)]="item.isChecked" name="item.id"></ion-checkbox>
+            </ion-item>
+            </ion-list>
+
+           
+          <button ion-button size="large" fill="clear" class="ion-text-capitalize ion-float-end" (click)="onFinishFunc()">FInish</button>
+       <!--Button section-->
+     <!--  <div >
+      <ion-button size="large" fill="clear" class="ion-text-capitalize ion-float-start" (click)="onPreviousFunc()"
+        *ngIf="prev">
+        {{data.btnPrev}}
+      </ion-button>
+      <ion-button size="large" fill="clear" class="ion-text-capitalize ion-float-end" (click)="onNextFunc()" *ngIf="next">
+        {{data.btnNext}}
+      </ion-button> 
+      <ion-button size="large" fill="clear" class="ion-text-capitalize ion-float-end" (click)="onFinishFunc()"
+      >
+      {{'Finish'}}
+      </ion-button>
+    </div>
+    -->
+      <!-- Avatar -->
+     
+      <!-- Title -->
+      <!-- <h1 class="ion-padding ion-text-wrap">
+        {{item.name}}
+      </h1>
+      <p class="text-size-lg ion-padding ion-text-wrap">
+        {{item.id}}
+      </p> -->
+    </ion-card-content>
+  </ion-card>
+</ion-content>
