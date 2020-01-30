@@ -1,6 +1,7 @@
 <!-- Intro Page -->
 <ion-app>
   <ion-content>
+    <news-loading *ngIf="initialLoading()"></news-loading>
     <news-wizard [data]="data" (onFinish)="closeModal($event)"></news-wizard>
   </ion-content>
 </ion-app>

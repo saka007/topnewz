@@ -20,29 +20,31 @@ export class NewsWizardPage implements OnChanges {
   ignoreDidChange = false;
   checkUserArray = [];
   finalArray = [];
-
+  loading = true;
   constructor() { }
 
   ngOnChanges(changes: { [propKey: string]: any }) {
-    //console.log(changes['data']);
     this.data = changes['data'].currentValue;
-    // this.data.push({'btnNext': 'Next'});
-    console.log(this.data);
-  } 
-   
-   checkUser(index: number) {
-     
+  }
+
+  checkUser(index: number) {
     const checked = this.data[index].isChecked;
     if (checked === true) {
       if (this.checkUserArray.indexOf(this.data[index]) === -1) {
         this.checkUserArray.push(this.data[index].id);
         // console.log('add',this.checkUserArray);
       }
-    } 
-     else {
-        const dle = this.checkUserArray.splice(index,1);
+    } else {
+      const dle = this.checkUserArray.splice(index, 1);
     }
-     this.finalArray = this.checkUserArray;
+    this.finalArray = this.checkUserArray;
+    // this.finalArray.splice( this.finalArray.indexOf('['), 1 );
+    // this.finalArray.splice( this.finalArray.indexOf(']'), 1 );
+
+  }
+
+  initialLoading() {
+    return this.loading;
   }
 
   onFinishFunc() {
@@ -50,7 +52,8 @@ export class NewsWizardPage implements OnChanges {
       event.stopPropagation();
     }
     this.onFinish.emit();
-    localStorage.setItem("CatSelected",JSON.stringify(this.finalArray));
+    console.log(this.finalArray);
+    localStorage.setItem("CatSelected", JSON.stringify(this.finalArray));
   }
 
   onNextFunc() {

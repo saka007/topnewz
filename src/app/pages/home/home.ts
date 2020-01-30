@@ -9,7 +9,7 @@ import { UserService } from '../../services/user.service';
 import { PostService } from '../../services/post.service';
 import { MediaService } from '../../services/media.service';
 import { BookmarkService } from '../../services/bookmark.service';
-import { NavigationExtras } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ConfigData } from '../../services/config';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ModalController } from '@ionic/angular';
@@ -38,10 +38,10 @@ export class HomePage {
   emptyState = {
     "title": "Uups, no data!",
     "subtitle": "Sorry no posts here"
-  } 
-  
+  }
+
   constructor(
-    
+
     private admobFree: AdMobFree,
     public navCtrl: NavController,
     private domSanitizer: DomSanitizer,
@@ -49,33 +49,28 @@ export class HomePage {
     private categoryService: CategoryService,
     private postService: PostService,
     private mediaService: MediaService,
-    private bookmarkService: BookmarkService) {
-      this.showBannerAds();
-      this.categoryService.getCategories().subscribe(categories => {
-        this.categories = categories;
+    private bookmarkService: BookmarkService,
+    private router: Router
+  ) {
+    this.showBannerAds();
+    this.categoryService.getCategories().subscribe(categories => {
+      this.categories = categories;
+      this.categories.unshift({ name: 'Home' });
 
-          if (localStorage.getItem("SHOW_START_WIZARD"))
-          {
-            const categorystored = localStorage.getItem("CatSelected"); //[4282,4286];
-            this.categories = this.categories.filter(function (item) {
-              return categorystored.indexOf(item.id) === -1;
-            });
-          }
-       
-        if (categories) {
-          this.refreshData(categories[0])
-        }
-      });
-
-      if (!this.isWizardShown()) {
-        this.openModalWizard();
+      if (categories) {
+        this.refreshData(categories[0]);
       }
+    });
+
+    if (!this.isWizardShown()) {
+      this.openModalWizard();
+    }
   }
 
   isWizardShown() {
     if (ConfigData.introData) {
       return localStorage.getItem("SHOW_START_WIZARD") == "true";
-    } 
+    }
     return false
   }
 
@@ -107,12 +102,11 @@ export class HomePage {
       if (this.posts && this.posts.length == 0) {
         this.posts = data.slice(0, ConfigData.numberOfItemForSlider);
         if (data.length > ConfigData.numberOfItemForSlider) {
-            this.postsRecentNews = this.postsRecentNews.concat(data.slice(ConfigData.numberOfItemForSlider, data.length));
+          this.postsRecentNews = this.postsRecentNews.concat(data.slice(ConfigData.numberOfItemForSlider, data.length));
         }
       } else {
         this.postsRecentNews = this.postsRecentNews.concat(data);
       }
-console.log(this.posts);
       this.posts.forEach(element => {
         element.bookmark = this.bookmarkService[element.id] ? true : false
         if (element.mediaId) {
@@ -166,7 +160,7 @@ console.log(this.posts);
       this.loading = false;
     });
   }
-  
+
   loadDataStickyFeatured(categoryId, event) {
     this.postService.getPostListWithFilter(categoryId, null, true, null, this.postPageLoaded).subscribe((data: Array<any>) => {
       this.posts = this.posts.concat(data)
@@ -197,12 +191,26 @@ console.log(this.posts);
       this.postsRecentNews = [];
       this.posts = [];
       this.postPageLoaded = 1;
-      this.loadData(category.id, null);
+      if (localStorage.getItem('SHOW_START_WIZARD') && this.selectedItem === 'Home') {
+        this.loadData(this.getSelectedCategoryFromStorage(), null);
+      } else {
+        this.loadData(category.id, null);
+      }
     }
   }
 
+  getSelectedCategoryFromStorage() {
+    const categorystored = localStorage.getItem('CatSelected');
+    const selectedCategory = categorystored.substring(1, categorystored.length - 1);
+    return selectedCategory;
+  }
+
   doInfinite(event) {
-    this.loadData(this.selectedCategory.id, event);
+    if (localStorage.getItem('SHOW_START_WIZARD') && this.selectedItem === 'Home') {
+      this.loadData(this.getSelectedCategoryFromStorage(), event);
+    } else {
+      this.loadData(this.selectedCategory.id, event);
+    }
   }
 
   openViewAll(isFeatured, event) {
@@ -210,17 +218,28 @@ console.log(this.posts);
       event.stopPropagation();
     }
     const navigationExtras: NavigationExtras = {
-      queryParams: { featured: isFeatured, categoryId: this.categories[0].id}
+      queryParams: { featured: isFeatured, categoryId: this.categories[0].id }
     };
     this.navCtrl.navigateForward(['/recent-news'], navigationExtras);
   }
-  
+
   openSinglePost(item) {
     const navigationExtras: NavigationExtras = {
       queryParams: { item: JSON.stringify(item) }
     };
     this.navCtrl.navigateForward(['/single-page'], navigationExtras);
   }
+
+  async choseCategory() {
+    localStorage.setItem("SHOW_START_WIZARD", 'false');
+    localStorage.setItem("CatSelected", null);
+    const modal = await this.modalController.create({
+      component: IntroPage
+
+    });
+    return await modal.present();
+  }
+
 
   bookmark = (item, e) => {
     if (e) {
@@ -243,7 +262,7 @@ console.log(this.posts);
     return this.loading
   }
   async openModalWizard() {
-    let modal = await this.modalController.create({component: IntroPage});
-     return await modal.present();
+    let modal = await this.modalController.create({ component: IntroPage });
+    return await modal.present();
   }
 }

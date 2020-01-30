@@ -1,23 +1,32 @@
 <!--  Theme Form - Form + Write Comment -->
-
+<!-- <ion-title>Select Categories</ion-title> -->
 <ion-content>
-<ion-card >
-    <!-- Content -->
-    <ion-card-content class="ion-padding transparent">
+  <h1>Select Categories</h1> 
+  <ion-row>
+    <ion-col size="6" *ngFor="let item of data; let i = index" (click)="checkUser(i)" >
+      <ion-item >
+        <p>{{item.name}} {{item.id}}</p>
+        <ion-checkbox color="danger" slot="start" [(ngModel)]="item.isChecked" name="item.id"></ion-checkbox>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-button shape="round" expand="block" (click)="onFinishFunc()">Finish</ion-button>
 
-        <ion-list>
-            <ion-item *ngFor="let item of data; let i = index" (click)="checkUser(i)">
-            <!-- <ion-item *ngFor="let item of data">  -->
-              <ion-label>{{item.name}} {{item.id}}</ion-label>
-              <!-- <ion-checkbox [(ngModel)]="item.id" (ionChange)="update()"></ion-checkbox>-->
-              <ion-checkbox slot="end" [(ngModel)]="item.isChecked" name="item.id"></ion-checkbox>
-            </ion-item>
-            </ion-list>
+  <!-- <ion-card> -->
+  <!-- Content -->
+  <!-- <ion-card-content>
+      <ion-list class="bg-transperent">
+        <ion-item *ngFor="let item of data; let i = index" (click)="checkUser(i)"> -->
+  <!-- <ion-item *ngFor="let item of data">  -->
+  <!-- <ion-label>{{item.name}} {{item.id}}</ion-label> -->
+  <!-- <ion-checkbox [(ngModel)]="item.id" (ionChange)="update()"></ion-checkbox>-->
+  <!-- <ion-checkbox slot="end" [(ngModel)]="item.isChecked" name="item.id"></ion-checkbox>
+        </ion-item>
+      </ion-list> -->
 
-           
-          <button ion-button size="large" fill="clear" class="ion-text-capitalize ion-float-end" (click)="onFinishFunc()">FInish</button>
-       <!--Button section-->
-     <!--  <div >
+  <!-- <button ion-button expand="block" fill="clear" (click)="onFinishFunc()">Finish</button> -->
+  <!--Button section-->
+  <!--  <div >
       <ion-button size="large" fill="clear" class="ion-text-capitalize ion-float-start" (click)="onPreviousFunc()"
         *ngIf="prev">
         {{data.btnPrev}}
@@ -31,15 +40,15 @@
       </ion-button>
     </div>
     -->
-      <!-- Avatar -->
-     
-      <!-- Title -->
-      <!-- <h1 class="ion-padding ion-text-wrap">
+  <!-- Avatar -->
+
+  <!-- Title -->
+  <!-- <h1 class="ion-padding ion-text-wrap">
         {{item.name}}
       </h1>
       <p class="text-size-lg ion-padding ion-text-wrap">
         {{item.id}}
       </p> -->
-    </ion-card-content>
-  </ion-card>
+  <!-- </ion-card-content>
+  </ion-card> -->
 </ion-content>

@@ -22,4 +22,9 @@ import { HomePage } from './home';
   declarations: [HomePage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class HomePageModule { }
+export class HomePageModule {
+
+  choseCategory(){
+    
+  }
+ }

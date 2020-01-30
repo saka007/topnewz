@@ -6,38 +6,28 @@ import { CategoryService } from './../../services/categoty.service';
 @Component({
     templateUrl: 'intro-page.html',
     styleUrls: ['intro-page.scss'],
-    providers: [NewsWizardService,CategoryService]
+    providers: [NewsWizardService, CategoryService]
 })
 export class IntroPage {
 
-    data = {};
-
+    data: any = [];
+    loading = true;
     constructor(
         private modalController: ModalController,
         public navCtrl: NavController,
         private service: NewsWizardService,
-        private categoryService: CategoryService        ) {
-
-            
-            this.categoryService.getCategories().subscribe(items => {
-                this.data = items;
-                 console.log('cate',this.data);
-              });
-
-
-            //   this.service.getNewsWizardData().subscribe(items => {
-            //     this.data = items;
-            //      console.log('hi',this.data);
-            //   });
-
-        
-        //this.data = this.service.getItemById();
-        
+        private categoryService: CategoryService) {
+        this.categoryService.getCategories().subscribe(items => {
+            this.data = items;
+            this.loading = false;
+        });
+    }
+    initialLoading() {
+        return this.loading;
     }
 
-     closeModal() {
-         localStorage.setItem("SHOW_START_WIZARD", 'true');
-         
+    closeModal() {
+        localStorage.setItem('SHOW_START_WIZARD', 'true');
         this.modalController.dismiss();
         this.navCtrl.navigateForward(['/home']);
     }

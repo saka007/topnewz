@@ -8,6 +8,7 @@ export abstract class Service {
     constructor(public http: HttpClient, public path: String, private cacheService: CacheService) { }
 
     getServiceName() {
+        console.log(this.path);
         return this.path
     }
 

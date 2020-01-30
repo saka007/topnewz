@@ -6,6 +6,19 @@
     height: 100%;
     width: auto;
   }
+ion-title{
+  padding-top:10px;
+}
+  ion-icon{
+    // position: relative;
+    // display: block;
+    float:right;
+     font-size: 30px;
+     margin-right:15px;
+    // margin-left:70%;
+    // bottom: 50;
+    // top:auto;
+  }
   
   img {
     fill: red !important;

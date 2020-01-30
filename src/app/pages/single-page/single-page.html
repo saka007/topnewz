@@ -4,7 +4,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-text-uppercase">DECO NEWS</ion-title>
+    <ion-title class="ion-text-uppercase">Topz Media</ion-title>
   </ion-toolbar>
 </ion-header>
 <!-- Content -->
@@ -26,18 +26,18 @@
               (click)="bookmark(post, $event)" [ngClass]="{'active' : post.bookmark}">
             </ion-button>
             <!-- Share -->
-            <ion-button class="ion-float-end share-icon" (click)="share(post, $event)" fill="clear">
+            <ion-button class="ion-float-end share-icon" (click)="Share(post, $event)" fill="clear">
             </ion-button>
             <div class="clearfix"></div>
             <!--- Title Post -->
             <h1 class="text-size-xl text-color-primary" [innerHTML]="htmlTitle"></h1>
 
             <!--Tags-->
-            <ion-col size="12" *ngFor="let item of post.tagsList">
+            <!-- <ion-col size="12" *ngFor="let item of post.tagsList">
               <span class="tag" (click)="openHashtag(item, $event)">
                 #{{item.slug}}
               </span>
-            </ion-col>
+            </ion-col> -->
             <ion-item class="ion-no-padding transparent" lines="none">
               <!-- Time -->
               <ion-label slot="start">
@@ -46,11 +46,11 @@
                   <p class="text-size-p text-color-primary">{{post.time | date:'d MMMM yyyy'}}</p>
                 </div>
                 <!-- Commnets -->
-                <div class="commnets ion-margin-horizontal" (click)="openCommentList(post, $event)">
-                  <span class="comment-icon "></span>
-                  <p class="text-size-p text-color-primary"> {{ numberOfComment > 99 ? '99+' : numberOfComment }}
-                    comments</p>
-                </div>
+                <!-- <div class="commnets ion-margin-horizontal" (click)="openCommentList(post, $event)">
+                  <span class="comment-icon "></span> -->
+                <!-- <p class="text-size-p text-color-primary"> {{ numberOfComment > 99 ? '99+' : numberOfComment }}
+                    comments</p> -->
+                <!-- </div> -->
               </ion-label>
             </ion-item>
           </ion-card-header>
@@ -60,16 +60,16 @@
             <div [innerHTML]="htmlContent"></div>
           </ion-card-content>
         </ion-card>
-        <news-list [categoryId]="post.categoryId" [postId]="post.id" [title]=""
-          (onItemClick)="onItemClick($event)"></news-list>
+        <news-list [categoryId]="post.categoryId" [postId]="post.id" [title]="" (onItemClick)="onItemClick($event)">
+        </news-list>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
-<ion-footer>
+<!-- <ion-footer>
   <ion-toolbar>
-    <!-- Wtite a comment-->
+     Wtite a comment
     <ion-button *ngIf="isCommentEnabled(post)" expand="full" class="default-button" (click)="openComment(post, $event)">
       Write a Comment</ion-button>
   </ion-toolbar>
-</ion-footer>
+</ion-footer> -->

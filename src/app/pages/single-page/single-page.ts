@@ -135,13 +135,13 @@ export class SinglePage {
     }
   }
 
-  share= (item, e) => {
-    this.socialSharing.shareViaFacebook(item.title, "", item.link)
-    .then(() => {
+  Share = (item, e) => {
+    this.socialSharing.share(item.title, "","", item.link)
+      .then(() => {
 
-    }).catch(() => {
+      }).catch(() => {
 
-    });
+      });
   }
 
   bookmark = (item, e) => {
